@@ -35,7 +35,7 @@ function setStartDate() {
 }
 
 function setEndDate() {
-    var endDate = $("#end-date-input").val();
+    let endDate = $("#end-date-input").val();
     if (endDate) {
         $(".search-btn").attr("end-date", endDate);
         $("#end-date-btn").html(endDate);
@@ -44,10 +44,10 @@ function setEndDate() {
 }
 
 function goToSearchPage(th) {
-    var url = "/search.html?";
+    let url = "/search.html?";
     url += ("aid=" + $(th).attr("area-id"));
     url += "&";
-    var areaName = $(th).attr("area-name");
+    let areaName = $(th).attr("area-name");
     if (undefined == areaName) areaName="";
     url += ("aname=" + areaName);
     url += "&";
