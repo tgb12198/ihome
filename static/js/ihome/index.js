@@ -60,9 +60,10 @@ function goToSearchPage(th) {
 $(document).ready(function(){
     // 检查用户的登录状态
     $.get("/api/v1.0/session", function(resp) {
-        if ("0" == resp.errno) {
+        if ("0" == resp.code) {
             $(".top-bar>.user-info>.user-name").html(resp.data.name);
             $(".top-bar>.user-info").show();
+            $(".register-login").hide();
         } else {
             $(".top-bar>.register-login").show();
         }
@@ -70,7 +71,7 @@ $(document).ready(function(){
 
     // 获取幻灯片要展示的房屋基本信息
     $.get("/api/v1.0/houses/index", function(resp){
-        if ("0" == resp.errno) {
+        if ("0" == resp.code) {
             $(".swiper-wrapper").html(template("swiper-houses-tmpl", {houses:resp.data}));
 
             // 设置幻灯片对象，开启幻灯片滚动
@@ -86,7 +87,7 @@ $(document).ready(function(){
 
     // 获取城区信息
     $.get("/api/v1.0/areas", function(resp){
-        if ("0" == resp.errno) {
+        if ("0" == resp.code) {
             $(".area-list").html(template("area-list-tmpl", {areas:resp.data}));
 
             $(".area-list a").click(function(e){

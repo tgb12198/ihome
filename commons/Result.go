@@ -1,7 +1,7 @@
 package commons
 
 type Result struct {
-	ErrNo int `json:"errno"`
-	Msg  string `json:"msg"`
+	Code string `json:"code"`
+	Msg  string `json:"message"`
 	Data interface{} `json:"data"`
 }

@@ -13,7 +13,8 @@ function logout() {
         },
         dataType: "json",
         success: function (resp) {
-            if ("0" == resp.errno) {
+            debugger
+            if ("0" == resp.code) {
                 location.href = "/index.html";
             }
         }
@@ -23,11 +24,11 @@ function logout() {
 $(document).ready(function(){
     $.get("/api/v1.0/user", function(resp){
         // 用户未登录
-        if ("4101" == resp.errno) {
+        if ("4101" == resp.code) {
             location.href = "/login.html";
         }
         // 查询到了用户的信息
-        else if ("0" == resp.errno) {
+        else if ("0" == resp.message) {
             $("#user-name").html(resp.data.name);
             $("#user-mobile").html(resp.data.mobile);
             if (resp.data.avatar_url) {

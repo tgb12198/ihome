@@ -144,7 +144,7 @@ $(document).ready(function() {
 
         // 向后端发送注册请求
         $.ajax({
-            url: "/api/v1.0/users",
+            url: "/api/v1.0/register",
             type: "POST",
             contentType: "application/json",  // 指明发送到后端的数据格式是json
             data: JSON.stringify(req),
@@ -153,16 +153,17 @@ $(document).ready(function() {
             },
             dataType: "json", // 指明后端返回到前端的数据是json格式的
             success: function(resp){
-                if (resp.errno == "0") {
+                if (resp.code == "0") {
                     // 表示注册成功,跳转到主页
                     location.href = "/index.html";
-                } else if (resp.errno == "4101") {
+                } else if (resp.code == "4101") {
                     // 表示用户注册成功，但是用户的登录状态后端未保存，所以跳转到登录页面
                     location.href = "/login.html";
                 } else {
                     // 在页面中展示错误信息
-                    $("#password2-err span").html(resp.errmsg);
+                    $("#password2-err span").html(resp.message);
                     $("#password2-err").show();
+                    return
                 }
             }
         });

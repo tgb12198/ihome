@@ -40,14 +40,14 @@ $(document).ready(function() {
                 "X-CSRFTOKEN":getCookie("csrf_token"),
             },
             success: function (data) {
-                if ("0" == data.errno) {
+                if ("0" == data.code) {
                     // 登录成功，跳转到主页
                     location.href = "/";
                     return;
                 }
                 else {
                     // 其他错误信息，在页面中展示
-                    $("#password-err span").html(data.errmsg);
+                    $("#password-err span").html(data.message);
                     $("#password-err").show();
                     return;
                 }
