@@ -7,6 +7,7 @@ const (
 	RECODE_DATAEXIST    = "4003"
 	RECODE_DATAERR      = "4004"
 	RECODE_ACCOUNTEXIST = "4005"
+	RECODE_NOTNULL      = "4006"
 	RECODE_SESSIONERR   = "4101"
 	RECODE_LOGINERR     = "4102"
 	RECODE_PARAMERR     = "4103"
@@ -40,6 +41,7 @@ var recodeText = map[string]string{
 	RECODE_SERVERERR:    "内部错误",
 	RECODE_UNKNOWERR:    "未知错误",
 	RECODE_ACCOUNTEXIST: "账号已存在",
+	RECODE_NOTNULL:      "数据不能为空",
 }
 
 func RecodeText(code string) string {

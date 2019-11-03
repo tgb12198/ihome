@@ -5,13 +5,13 @@ function getCookie(name) {
 
 function generateUUID() {
     var d = new Date().getTime();
-    if(window.performance && typeof window.performance.now === "function"){
+    if (window.performance && typeof window.performance.now === "function") {
         d += performance.now(); //use high-precision timer if available
     }
-    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = (d + Math.random()*16)%16 | 0;
-        d = Math.floor(d/16);
-        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+        var r = (d + Math.random() * 16) % 16 | 0;
+        d = Math.floor(d / 16);
+        return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
     return uuid;
 }
@@ -36,7 +36,7 @@ function sendSMSCode() {
         $("#mobile-err").show();
         $(".phonecode-a").attr("onclick", "sendSMSCode();");
         return;
-    } 
+    }
     var imageCode = $("#imagecode").val();
     if (!imageCode) {
         $("#image-code-err span").html("请填写验证码！");
@@ -50,7 +50,7 @@ function sendSMSCode() {
         text: imageCode, // 用户填写的图片验证码
         id: imageCodeId // 图片验证码的编号
     }
-    $.get("/api/v1.0/smscode/"+mobile, req, function (resp) {
+    $.get("/api/v1.0/smscode/" + mobile, req, function (resp) {
         // 表示后端发送短信成功
         if (resp.errno == "0") {
             // 倒计时60秒，60秒后允许用户再次点击发送短信验证码的按钮
@@ -67,7 +67,7 @@ function sendSMSCode() {
                 } else {
                     num -= 1;
                     // 展示倒计时信息
-                    $(".phonecode-a").html(num+"秒");
+                    $(".phonecode-a").html(num + "秒");
                 }
             }, 1000, 60)
         } else {
@@ -82,36 +82,37 @@ function sendSMSCode() {
 
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     generateImageCode();  // 生成一个图片验证码的编号，并设置页面中图片验证码img标签的src属性
-    $("#mobile").focus(function(){
+    $("#mobile").focus(function () {
         $("#mobile-err").hide();
     });
-    $("#imagecode").focus(function(){
+    $("#imagecode").focus(function () {
         $("#image-code-err").hide();
     });
-    $("#phonecode").focus(function(){
+    $("#phonecode").focus(function () {
         $("#phone-code-err").hide();
     });
-    $("#password").focus(function(){
+    $("#password").focus(function () {
         $("#password-err").hide();
         $("#password2-err").hide();
     });
-    $("#password2").focus(function(){
+    $("#password2").focus(function () {
         $("#password2-err").hide();
     });
-    $(".form-register").submit(function(e){
+    $(".form-register").submit(function (e) {
         // 阻止浏览器对于表单的默认行为，即阻止浏览器把表单的数据转换为表单格式kye=val&key=val的字符串发送到后端
         e.preventDefault();
         var mobile = $("#mobile").val();
         var phoneCode = $("#phonecode").val();
         var passwd = $("#password").val();
         var passwd2 = $("#password2").val();
+        var name = $("#name").val();
         if (!mobile) {
             $("#mobile-err span").html("请填写正确的手机号！");
             $("#mobile-err").show();
             return;
-        } 
+        }
         if (!phoneCode) {
             $("#phone-code-err span").html("请填写短信验证码！");
             $("#phone-code-err").show();
@@ -127,10 +128,15 @@ $(document).ready(function() {
             $("#password2-err").show();
             return;
         }
+        if (!name) {
+            $("#name-err span").html("请输入昵称！");
+            $("#mobile-err").show();
+        }
 
         // 构造发送到后端的数据 方式一
         var req = {
             "mobile": mobile,
+            "name": name,
             "password": passwd,
             "sms_code": phoneCode
         };
@@ -152,7 +158,7 @@ $(document).ready(function() {
                 "X-CSRFToken": getCookie("csrf_token") // 后端开启了csrf防护，所以前端发送json数据的时候，需要包含这个请求头
             },
             dataType: "json", // 指明后端返回到前端的数据是json格式的
-            success: function(resp){
+            success: function (resp) {
                 if (resp.code == "0") {
                     // 表示注册成功,跳转到主页
                     location.href = "/index.html";

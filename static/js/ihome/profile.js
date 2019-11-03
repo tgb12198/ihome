@@ -13,13 +13,13 @@ function getCookie(name) {
 
 $(document).ready(function () {
     // 在页面加载是向后端查询用户的信息
-    $.get("/api/v1.0/user", function(resp){
+    $.get("/api/v1.0/upload", function(resp){
         // 用户未登录
-        if ("4101" == resp.errno) {
+        if ("4101" == resp.code) {
             location.href = "/login.html";
         }
         // 查询到了用户的信息
-        else if ("0" == resp.errno) {
+        else if ("0" == resp.code) {
             $("#user-name").val(resp.data.name);
             if (resp.data.avatar) {
                 $("#user-avatar").attr("src", resp.data.avatar);
@@ -32,21 +32,21 @@ $(document).ready(function () {
         // 禁止浏览器对于表单的默认行为
         e.preventDefault();
         $(this).ajaxSubmit({
-            url: "/api/v1.0/user/avatar",
+            url: "/api/v1.0/upload/avatar",
             type: "post",
             headers: {
                 "X-CSRFToken": getCookie("csrf_token"),
             },
             dataType: "json",
             success: function (resp) {
-                if (resp.errno == "0") {
+                if (resp.code == "0") {
                     // 表示上传成功， 将头像图片的src属性设置为图片的url
                     $("#user-avatar").attr("src", resp.data.avatar_url);
-                } else if (resp.errno == "4101") {
+                } else if (resp.code == "4101") {
                     // 表示用户未登录，跳转到登录页面
                     location.href = "/login.html";
                 } else {
-                    alert(resp.errmsg);
+                    alert(resp.message);
                 }
             }
         });
@@ -71,12 +71,12 @@ $(document).ready(function () {
                 "X-CSRFTOKEN":getCookie("csrf_token")
             },
             success: function (data) {
-                if ("0" == data.errno) {
+                if ("0" == data.code) {
                     $(".error-msg").hide();
                     showSuccessMsg();
-                } else if ("4001" == data.errno) {
+                } else if ("4001" == data.code) {
                     $(".error-msg").show();
-                } else if ("4101" == data.errno) {
+                } else if ("4101" == data.code) {
                     location.href = "/login.html";
                 }
             }
