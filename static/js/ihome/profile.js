@@ -1,8 +1,9 @@
 function showSuccessMsg() {
-    $('.popup_con').fadeIn('fast', function() {
-        setTimeout(function(){
-            $('.popup_con').fadeOut('fast',function(){}); 
-        },1000) 
+    $('.popup_con').fadeIn('fast', function () {
+        setTimeout(function () {
+            $('.popup_con').fadeOut('fast', function () {
+            });
+        }, 1000)
     });
 }
 
@@ -13,7 +14,7 @@ function getCookie(name) {
 
 $(document).ready(function () {
     // 在页面加载是向后端查询用户的信息
-    $.get("/api/v1.0/upload", function(resp){
+    $.get("/api/v1.0/upload", function (resp) {
         // 用户未登录
         if ("4101" == resp.code) {
             location.href = "/login.html";
@@ -52,7 +53,7 @@ $(document).ready(function () {
         });
 
     });
-    $("#form-name").submit(function(e){
+    $("#form-name").submit(function (e) {
         e.preventDefault();
         // 获取参数
         var name = $("#user-name").val();
@@ -62,13 +63,13 @@ $(document).ready(function () {
             return;
         }
         $.ajax({
-            url:"/api/v1.0/user/name",
-            type:"PUT",
+            url: "/api/v1.0/user/name",
+            type: "PUT",
             data: JSON.stringify({name: name}),
             contentType: "application/json",
             dataType: "json",
-            headers:{
-                "X-CSRFTOKEN":getCookie("csrf_token")
+            headers: {
+                "X-CSRFTOKEN": getCookie("csrf_token")
             },
             success: function (data) {
                 if ("0" == data.code) {

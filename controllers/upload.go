@@ -35,7 +35,7 @@ func (this *UploadController) UploadFile() {
 	//4、更新User表
 
 	//4.1从session中取得userId
-	userId:= this.GetSession("user_id")
+	userId := this.GetSession("user_id")
 	//4.2更新user表头像字段
 	o := orm.NewOrm()
 	var user models.User
@@ -45,7 +45,7 @@ func (this *UploadController) UploadFile() {
 		result.Msg = models.RecodeText(models.RECODE_DBERR)
 		return
 	}
-	user.Avatar_url = url
+	user.Avatar_url = commons.BASEPATH + url
 	num, err := o.Update(&user)
 	if err != nil {
 		beego.Error("更新数据失败", err)
@@ -56,7 +56,7 @@ func (this *UploadController) UploadFile() {
 	if num > 0 {
 		result.Code = models.RECODE_OK
 		result.Msg = models.RecodeText(models.RECODE_OK)
-		result.Data = commons.BASEPATH + url
+		result.Data = user
 	}
 	this.Data["json"] = result
 	this.ServeJSON()

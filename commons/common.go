@@ -20,4 +20,4 @@ func DecryptData(str string) string {
 	return ""
 }
 
-const BASEPATH = "192.168.0.128/"
+const BASEPATH = "http://192.168.0.128/"

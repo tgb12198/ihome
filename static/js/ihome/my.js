@@ -28,7 +28,7 @@ $(document).ready(function(){
             location.href = "/login.html";
         }
         // 查询到了用户的信息
-        else if ("0" == resp.message) {
+        else if ("0" == resp.code) {
             $("#user-name").html(resp.data.name);
             $("#user-mobile").html(resp.data.mobile);
             if (resp.data.avatar_url) {
