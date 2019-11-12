@@ -52,7 +52,7 @@ function sendSMSCode() {
     }
     $.get("/api/v1.0/smscode/" + mobile, req, function (resp) {
         // 表示后端发送短信成功
-        if (resp.errno == "0") {
+        if (resp.code == "0") {
             // 倒计时60秒，60秒后允许用户再次点击发送短信验证码的按钮
             var num = 60;
             // 设置一个计时器
@@ -72,7 +72,7 @@ function sendSMSCode() {
             }, 1000, 60)
         } else {
             // 表示后端出现了错误，可以将错误信息展示到前端页面中
-            $("#phone-code-err span").html(resp.errmsg);
+            $("#phone-code-err span").html(resp.message);
             $("#phone-code-err").show();
             // 将点击按钮的onclick事件函数恢复回去
             $(".phonecode-a").attr("onclick", "sendSMSCode();");

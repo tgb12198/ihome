@@ -19,7 +19,7 @@ $(document).ready(function(){
 
     // 获取该房屋的详细信息
     $.get("/api/v1.0/houses/" + houseId, function(resp){
-        if ("0" == resp.errno) {
+        if ("0" == resp.code) {
             $(".swiper-container").html(template("house-image-tmpl", {img_urls:resp.data.house.img_urls, price:resp.data.house.price}));
             $(".detail-con").html(template("house-detail-tmpl", {house:resp.data.house}));
 

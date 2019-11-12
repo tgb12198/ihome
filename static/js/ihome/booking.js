@@ -27,7 +27,7 @@ function showErrorMsg() {
 $(document).ready(function(){
     // 判断用户是否登录
     $.get("/api/v1.0/session", function(resp) {
-        if ("0" != resp.errno) {
+        if ("0" != resp.code) {
             location.href = "/login.html";
         }
     }, "json");
@@ -57,7 +57,7 @@ $(document).ready(function(){
 
     // 获取房屋的基本信息
     $.get("/api/v1.0/houses/" + houseId, function(resp){
-        if (0 == resp.errno) {
+        if (0 == resp.code) {
             $(".house-info>img").attr("src", resp.data.house.img_urls[0]);
             $(".house-text>h3").html(resp.data.house.title);
             $(".house-text>p>span").html((resp.data.house.price/100.0).toFixed(0));
@@ -84,11 +84,11 @@ $(document).ready(function(){
                     "X-CSRFTOKEN":getCookie("csrf_token"),
                 },
                 success: function (resp) {
-                    if ("4101" == resp.errno) {
+                    if ("4101" == resp.code) {
                         location.href = "/login.html";
-                    } else if ("4004" == resp.errno) {
+                    } else if ("4004" == resp.code) {
                         showErrorMsg("房间已被抢定，请重新选择日期！");
-                    } else if ("0" == resp.errno) {
+                    } else if ("0" == resp.code) {
                         location.href = "/orders.html";
                     }
                 }

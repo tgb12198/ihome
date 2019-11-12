@@ -46,7 +46,7 @@ function updateHouseData(action) {
     };
     $.get("/api/v1.0/houses", params, function(resp){
         house_data_querying = false;
-        if ("0" == resp.errno) {
+        if ("0" == resp.code) {
             if ("0" == resp.data.total_page) {
                 $(".house-list").html("暂时没有符合您查询的房屋信息。");
             } else {
@@ -77,7 +77,7 @@ $(document).ready(function(){
 
     // 获取筛选条件中的城市区域信息
     $.get("/api/v1.0/areas", function(data){
-        if ("0" == data.errno) {
+        if ("0" == data.code) {
             var areaId = queryData["aid"];
             if (areaId) {
                 for (var i=0; i<data.data.length; i++) {

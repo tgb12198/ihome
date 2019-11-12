@@ -19,7 +19,7 @@ $(document).ready(function(){
     $(window).on('resize', centerModals);
     // 查询房客订单
     $.get("/api/v1.0/user/orders?role=custom", function(resp){
-        if ("0" == resp.errno) {
+        if ("0" == resp.code) {
             $(".orders-list").html(template("orders-list-tmpl", {orders:resp.data.orders}));
             $(".order-comment").on("click", function(){
                 var orderId = $(this).parents("li").attr("order-id");
@@ -44,9 +44,9 @@ $(document).ready(function(){
                         "X-CSRFTOKEN":getCookie("csrf_token"),
                     },
                     success:function (resp) {
-                        if ("4101" == resp.errno) {
+                        if ("4101" == resp.code) {
                             location.href = "/login.html";
-                        } else if ("0" == resp.errno) {
+                        } else if ("0" == resp.code) {
                             $(".orders-list>li[order-id="+ orderId +"]>div.order-content>div.order-text>ul li:eq(4)>span").html("已完成");
                             $("ul.orders-list>li[order-id="+ orderId +"]>div.order-title>div.order-operate").hide();
                             $("#comment-modal").modal("hide");

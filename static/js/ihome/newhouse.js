@@ -7,7 +7,7 @@ $(document).ready(function(){
     // $('.popup_con').fadeIn('fast');
     // $('.popup_con').fadeOut('fast');
     $.get("/api/v1.0/areas", function (resp) {
-        if ("0" == resp.errno) {
+        if ("0" == resp.code) {
             // // 表示查询到了数据,修改前端页面
             // for (var i=0; i<resp.data.length; i++) {
             //     // 向页面中追加标签
@@ -20,7 +20,7 @@ $(document).ready(function(){
             rendered_html = template("areas-tmpl", {areas: resp.data});
             $("#area-id").html(rendered_html);
         } else {
-            alert(resp.errmsg);
+            alert(resp.message);
         }
     }, "json");
 
@@ -50,9 +50,9 @@ $(document).ready(function(){
                 "X-CSRFToken": getCookie("csrf_token")
             },
             success: function(resp){
-                if ("4101" == resp.errno) {
+                if ("4101" == resp.code) {
                     location.href = "/login.html";
-                } else if ("0" == resp.errno) {
+                } else if ("0" == resp.code) {
                     // 后端保存数据成功
                     // 隐藏基本信息的表单
                     $("#form-house-info").hide();
@@ -61,7 +61,7 @@ $(document).ready(function(){
                     // 设置图片表单对应的房屋编号那个隐藏字段
                     $("#house-id").val(resp.data.house_id);
                 } else {
-                    alert(resp.errmsg);
+                    alert(resp.message);
                 }
             }
         });
